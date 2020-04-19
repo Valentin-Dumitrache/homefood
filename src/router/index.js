@@ -9,7 +9,7 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
+    path: '/homefood',
     name: 'home',
     component: LandingPage
   },
