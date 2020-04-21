@@ -3,14 +3,14 @@
     <v-carousel v-if="isDishRoute" cycle :show-arrows="false" height="300px">
       <v-carousel-item
         v-for="image in imageSource"
-        :key="image"
         :src="image"
+        :key="image"
       ></v-carousel-item>
     </v-carousel>
     <v-img
       v-else
       class="white--text align-center"
-      :src="imageSource[0]"
+      :src="getPicture(imageSource)"
       height="280"
     >
       <v-chip
@@ -38,20 +38,17 @@
 </template>
 
 <script>
+import images from '../mixins/images';
+
 export default {
   props: {
-    imageSource: {
-      type: Array,
-      default: function() {
-        return ['placeholder'];
-      }
-    },
+    imageSource: [Array, String],
     name: {
       type: String,
       required: true
     },
     price: {
-      type: Number,
+      type: String,
       required: true
     },
     canEdit: {
@@ -59,6 +56,7 @@ export default {
       default: false
     }
   },
+  mixins: [images],
   computed: {
     isDishRoute() {
       return this.$route.name === 'dish';

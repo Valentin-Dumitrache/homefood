@@ -9,7 +9,7 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/homefood',
+    path: '/',
     name: 'home',
     component: LandingPage
   },
@@ -33,9 +33,6 @@ const routes = [
     name: 'profile',
     component: CookProfile
   }
-
-  //   Lazy load:
-  //   component: () => import(/* webpackChunkName: "about" */ "../views/About.vue")
 ];
 
 const router = new VueRouter({

@@ -11,6 +11,7 @@ Vue.filter('formatPrice', value => `${value} RON`);
 Vue.filter('formatLocation', (value1, value2) =>
   value1 === value2 || !value2 ? value1 : `${value1}, ${value2}`
 );
+Vue.filter('formatName', (value1, value2) => `${value1} ${value2}`);
 Vue.filter('formatDelivery', value => (value ? 'Cu livrare' : 'Fara Livrare'));
 
 new Vue({
