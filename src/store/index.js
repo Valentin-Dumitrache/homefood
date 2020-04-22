@@ -8,7 +8,6 @@ const hostPath = 'https://homefood-app.herokuapp.com/';
 
 export default new Vuex.Store({
   state: {
-    loggedIn: false,
     dishes: {
       loading: false,
       data: []
@@ -39,9 +38,6 @@ export default new Vuex.Store({
     selectedCookDishes: state => state.selectedCook.dishes
   },
   mutations: {
-    logIn(state) {
-      state.loggedIn = true;
-    },
     beforeSetDishes(state) {
       state.dishes.loading = true;
     },
