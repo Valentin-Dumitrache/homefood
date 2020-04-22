@@ -9,8 +9,10 @@
 
 <script>
 import AppHeader from '@/components/app-header';
+import storeModule from '@/store/index';
 
 export default {
+  storeModule,
   components: { AppHeader }
 };
 </script>

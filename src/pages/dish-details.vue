@@ -1,39 +1,45 @@
 <template>
-  <v-content>
-    <router-link :to="{ name: 'dishList' }">
-      <back-button />
-    </router-link>
+  <v-content v-if="isSelectedDishesLoading">
+    <v-progress-circular
+      indeterminate
+      class="spinner"
+      :size="50"
+      color="primary"
+    />
+    <back-button @click="$router.go(-1)" />
+  </v-content>
+  <v-content v-else>
+    <back-button @click="$router.go(-1)" />
     <dish-card
-      :image-source="dish.imageSource"
-      :name="dish.name"
-      :price="dish.price"
+      :pictures="selectedDishPictures"
+      :name="selectedDishDetails.name"
+      :price="selectedDishDetails.price"
     >
     </dish-card>
     <v-container class="mt-3">
       <v-row>
         <v-chip
-          v-for="label in dish.labels"
+          v-for="label in selectedDishDetails.labels"
           :label="true"
           :key="label"
-          :label-type="label"
           class="ml-3 elevation-4 text-capitalize"
           text-color="secondary"
           color="white"
         >
-          <v-icon class="pr-2" color="secondary"> {{ getIcon(label) }}</v-icon>
+          <v-icon class="pr-2" color="secondary">{{ getIcon(label) }}</v-icon>
           {{ label }}
         </v-chip>
       </v-row>
     </v-container>
     <v-container>
       <p class="ma-0">
-        {{ dish.description }}
+        {{ selectedDishDetails.description }}
       </p>
     </v-container>
     <v-container class="pt-0">
       <v-row>
         <v-chip
-          v-for="ingredient in dish.ingredients"
+          v-for="ingredient in selectedDishIngredients"
           :key="ingredient"
           label
           class="mt-4 ml-3 elevation-4"
@@ -48,22 +54,33 @@
     <v-container>
       <v-row class="caption">
         <v-col>
-          <p>{{ `Pret/Portie ${dish.price}` | formatPrice }}</p>
-          <p>{{ cook.delivery | formatDelivery }}</p>
-          <p>{{ cookName }}</p>
-          <p>{{ cook.city | formatLocation(cook.county) }}</p>
+          <p>{{ `Pret/Portie ${selectedDishDetails.price}` | formatPrice }}</p>
+          <p>{{ selectedDishCook.delivery | formatDelivery }}</p>
+          <p>
+            {{
+              selectedDishCook.firstName | formatName(selectedDishCook.lastName)
+            }}
+          </p>
+          <p>
+            {{
+              selectedDishCook.city | formatLocation(selectedDishCook.county)
+            }}
+          </p>
         </v-col>
         <router-link
           :to="{
             name: 'profile',
-            params: { id: cook.id, previousDish: dish.id }
+            params: {
+              id: selectedDishCook.id,
+              previousDish: selectedDishDetails.id
+            }
           }"
           tag="div"
         >
           <v-col>
-            <v-icon size="150px">
-              mdi-account-circle
-            </v-icon>
+            <v-avatar size="150px">
+              <v-img :src="getPicture(selectedDishCook.profilePicture)"></v-img>
+            </v-avatar>
           </v-col>
         </router-link>
       </v-row>
@@ -73,25 +90,28 @@
 
 <script>
 import DishCard from '../components/dish-card';
-import dishes from '@/mocks/dishes.js';
-import cook from '@/mocks/cooks.js';
 import BackButton from '../components/back-button';
 import icons from '../mixins/icons/icons';
+import images from '../mixins/images';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
-  name: 'dish',
   components: { BackButton, DishCard },
-  mixins: [icons],
   computed: {
-    dish() {
-      return dishes.find(({ id }) => id === parseInt(this.$route.params.id));
-    },
-    cook() {
-      return cook.find(({ id }) => id === parseInt(this.dish.cookId));
-    },
-    cookName() {
-      return `${this.cook.firstName} ${this.cook.lastName}`;
-    }
+    ...mapGetters([
+      'selectedDishPictures',
+      'isSelectedDishesLoading',
+      'selectedDishDetails',
+      'selectedDishCook',
+      'selectedDishIngredients'
+    ])
+  },
+  mixins: [icons, images],
+  async created() {
+    await this.getDishDetails({ cookId: '1a', dishId: '1a' });
+  },
+  methods: {
+    ...mapActions(['getDishDetails'])
   }
 };
 </script>

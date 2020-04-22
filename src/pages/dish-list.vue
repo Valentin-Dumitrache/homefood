@@ -19,20 +19,39 @@
       </v-btn>
     </v-toolbar>
     <v-container class="pa-0">
-      <dish-carousel :dishes="dishList" />
+      <v-progress-circular
+        v-if="isDishesLoading"
+        indeterminate
+        class="spinner"
+        :size="50"
+        color="primary"
+      />
+      <dish-carousel v-else :dishes="dishes" />
     </v-container>
   </v-content>
 </template>
 <script>
 import DishCarousel from '@/components/dish-carousel';
-import dishes from '@/mocks/dishes.js';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   components: { DishCarousel },
   computed: {
-    dishList() {
-      return dishes;
-    }
+    ...mapGetters(['isDishesLoading', 'dishes'])
+  },
+  async created() {
+    await this.getDishes();
+  },
+  methods: {
+    ...mapActions(['getDishes'])
   }
 };
 </script>
+<style lang="scss">
+.spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -25px 0 0 -25px;
+}
+</style>

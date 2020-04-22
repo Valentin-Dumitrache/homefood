@@ -1,53 +1,72 @@
 <template>
-  <v-content>
+  <v-content v-if="isSelectedCookLoading">
+    <v-progress-circular
+      indeterminate
+      class="spinner"
+      :size="50"
+      color="primary"
+    />
+    <back-button @click="$router.go(-1)" />
+  </v-content>
+  <v-content v-else>
     <back-button @click="$router.go(-1)" />
     <edit-button />
     <div>
-      <v-img :src="cook.coverPicture" height="150px" />
+      <v-img
+        :src="getPicture(selectedCookDetails.coverPicture)"
+        height="150px"
+      />
       <div class="avatar">
-        <v-icon v-if="true" size="100px" color="white">
-          mdi-account-circle
-        </v-icon>
-        <v-avatar v-else size="100px" />
+        <v-avatar size="100px" color="white">
+          <v-img :src="getPicture(selectedCookDetails.profilePicture)" />
+        </v-avatar>
       </div>
     </div>
     <v-container>
       <p class="mx-auto title mt-12 d-table mb-2" color="secondary">
-        {{ cookName }}
+        {{
+          selectedCookDetails.firstName
+            | formatName(selectedCookDetails.lastName)
+        }}
       </p>
       <p class="mx-auto subtitle-1 d-table mb-0" color="secondary">
-        {{ cook.city | formatLocation(cook.county) }}
+        {{
+          selectedCookDetails.city | formatLocation(selectedCookDetails.county)
+        }}
       </p>
       <p class="mx-auto subtitle-1 d-table" color="secondary">
-        {{ cook.delivery | formatDelivery }}
+        {{ selectedCookDetails.delivery | formatDelivery }}
       </p>
       <p class="subtitle-2" color="secondary">
-        {{ cook.description }}
+        {{ selectedCookDetails.description }}
       </p>
     </v-container>
-    <dish-carousel :dishes="dishList" />
+    <dish-carousel :dishes="selectedCookDishes" />
   </v-content>
 </template>
 
 <script>
 import BackButton from '../components/back-button';
-import cooks from '@/mocks/cooks.js';
-import dishes from '@/mocks/dishes.js';
 import EditButton from '../components/edit-button';
 import DishCarousel from '@/components/dish-carousel';
+import images from '../mixins/images';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   components: { BackButton, EditButton, DishCarousel },
+  mixins: [images],
   computed: {
-    cook() {
-      return cooks.find(({ id }) => id === parseInt(this.$route.params.id));
-    },
-    cookName() {
-      return `${this.cook.firstName} ${this.cook.lastName}`;
-    },
-    dishList() {
-      return dishes.find(({ cookId }) => cookId === this.cook.id);
-    }
+    ...mapGetters([
+      'isSelectedCookLoading',
+      'selectedCookDetails',
+      'selectedCookDishes'
+    ])
+  },
+  async created() {
+    await this.getCookDetails({ cookId: this.$route.params.id });
+  },
+  methods: {
+    ...mapActions(['getCookDetails'])
   }
 };
 </script>
