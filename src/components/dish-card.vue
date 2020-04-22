@@ -2,15 +2,15 @@
   <v-card class="align-end">
     <v-carousel v-if="isDishRoute" cycle :show-arrows="false" height="300px">
       <v-carousel-item
-        v-for="image in imageSource"
-        :src="image"
-        :key="image"
+        v-for="picture in pictures"
+        :src="picture"
+        :key="picture"
       ></v-carousel-item>
     </v-carousel>
     <v-img
       v-else
       class="white--text align-center"
-      :src="getPicture(imageSource)"
+      :src="getPicture(mainPicture)"
       height="280"
     >
       <v-chip
@@ -42,19 +42,20 @@ import images from '../mixins/images';
 
 export default {
   props: {
-    imageSource: [Array, String],
+    mainPicture: String,
     name: {
       type: String,
       required: true
     },
     price: {
-      type: String,
+      type: Number,
       required: true
     },
     canEdit: {
       type: Boolean,
       default: false
-    }
+    },
+    pictures: Array
   },
   mixins: [images],
   computed: {

@@ -18,41 +18,49 @@
         Filter
       </v-btn>
     </v-toolbar>
-    <v-container class="pa-0">
-      <circle2 v-if="isLoading" class="spinner" size="60px" />
-      <dish-carousel v-else :dishes="dishes" />
+    <v-progress-circular
+      v-if="isLoading"
+      indeterminate
+      class="spinner"
+      :size="50"
+      color="primary"
+    />
+    <v-container v-else class="pa-0">
+      <dish-carousel :dishes="dishes" />
     </v-container>
   </v-content>
 </template>
 <script>
 import DishCarousel from '@/components/dish-carousel';
-import axios from 'axios';
-import Circle2 from 'vue-loading-spinner/src/components/Circle2';
 
 export default {
-  components: { DishCarousel, Circle2 },
+  components: { DishCarousel },
   data() {
     return {
       dishes: [],
-      isLoading: true
+      isLoading: false
     };
   },
   async created() {
-    try {
-      const response = await axios.get(
-        `https://homefood-app.herokuapp.com/getDishes`
-      );
-      this.dishes = response.data;
-      this.isLoading = false;
-    } catch (e) {
-      console.log(e);
+    this.toggleIsLoading();
+    await this.$store
+      .dispatch('getDishes')
+      .then(() => {
+        this.dishes = this.$store.state.dishes;
+      })
+      .finally(() => {
+        this.toggleIsLoading();
+      });
+  },
+  methods: {
+    toggleIsLoading() {
+      this.isLoading = !this.isLoading;
     }
   }
 };
 </script>
 <style lang="scss">
 .spinner {
-  border-color: #e65100 #e65100 #ffffff !important;
   position: absolute;
   top: 50%;
   left: 50%;

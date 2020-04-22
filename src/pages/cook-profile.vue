@@ -47,6 +47,7 @@ export default {
       isLoading: true
     };
   },
+  // this is not done yet, i'm waiting on feedback on the previous components before going further.
   async created() {
     try {
       let response = await axios.get(

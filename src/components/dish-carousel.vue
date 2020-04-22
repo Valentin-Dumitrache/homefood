@@ -9,7 +9,7 @@
         <dish-card
           class="dish-card mr-4 mb-2 ml-2"
           :color="active ? 'primary' : 'grey lighten-1'"
-          :image-source="dish.imageSource"
+          :mainPicture="dish.mainPicture"
           :name="dish.name"
           :price="dish.price"
           @click.native="toggle"
