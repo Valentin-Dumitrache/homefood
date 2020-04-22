@@ -18,44 +18,32 @@
         Filter
       </v-btn>
     </v-toolbar>
-    <v-progress-circular
-      v-if="isLoading"
-      indeterminate
-      class="spinner"
-      :size="50"
-      color="primary"
-    />
-    <v-container v-else class="pa-0">
-      <dish-carousel :dishes="dishes" />
+    <v-container class="pa-0">
+      <v-progress-circular
+        v-if="isDishesLoading"
+        indeterminate
+        class="spinner"
+        :size="50"
+        color="primary"
+      />
+      <dish-carousel v-else :dishes="dishes" />
     </v-container>
   </v-content>
 </template>
 <script>
 import DishCarousel from '@/components/dish-carousel';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   components: { DishCarousel },
-  data() {
-    return {
-      dishes: [],
-      isLoading: false
-    };
+  computed: {
+    ...mapGetters(['isDishesLoading', 'dishes'])
   },
   async created() {
-    this.toggleIsLoading();
-    await this.$store
-      .dispatch('getDishes')
-      .then(() => {
-        this.dishes = this.$store.state.dishes;
-      })
-      .finally(() => {
-        this.toggleIsLoading();
-      });
+    await this.getDishes();
   },
   methods: {
-    toggleIsLoading() {
-      this.isLoading = !this.isLoading;
-    }
+    ...mapActions(['getDishes'])
   }
 };
 </script>

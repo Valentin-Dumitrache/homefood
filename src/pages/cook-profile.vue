@@ -1,31 +1,47 @@
 <template>
-  <v-content>
-    <circle2 v-if="isLoading" class="spinner" size="60px"></circle2>
+  <v-content v-if="isSelectedCookLoading">
+    <v-progress-circular
+      indeterminate
+      class="spinner"
+      :size="50"
+      color="primary"
+    />
+    <back-button @click="$router.go(-1)" />
+  </v-content>
+  <v-content v-else>
     <back-button @click="$router.go(-1)" />
     <edit-button />
     <div>
-      <v-img :src="getPicture(cook.coverPicture)" height="150px" />
+      <v-img
+        :src="getPicture(selectedCookDetails.coverPicture)"
+        height="150px"
+      />
       <div class="avatar">
         <v-avatar size="100px" color="white">
-          <v-img :src="getPicture(cook.profilePicture)" />
+          <v-img :src="getPicture(selectedCookDetails.profilePicture)" />
         </v-avatar>
       </div>
     </div>
     <v-container>
       <p class="mx-auto title mt-12 d-table mb-2" color="secondary">
-        {{ cook.firstName | formatName(cook.lastName) }}
+        {{
+          selectedCookDetails.firstName
+            | formatName(selectedCookDetails.lastName)
+        }}
       </p>
       <p class="mx-auto subtitle-1 d-table mb-0" color="secondary">
-        {{ cook.city | formatLocation(cook.county) }}
+        {{
+          selectedCookDetails.city | formatLocation(selectedCookDetails.county)
+        }}
       </p>
       <p class="mx-auto subtitle-1 d-table" color="secondary">
-        {{ cook.delivery | formatDelivery }}
+        {{ selectedCookDetails.delivery | formatDelivery }}
       </p>
       <p class="subtitle-2" color="secondary">
-        {{ cook.description }}
+        {{ selectedCookDetails.description }}
       </p>
     </v-container>
-    <dish-carousel :dishes="dishes" />
+    <dish-carousel :dishes="selectedCookDishes" />
   </v-content>
 </template>
 
@@ -33,37 +49,24 @@
 import BackButton from '../components/back-button';
 import EditButton from '../components/edit-button';
 import DishCarousel from '@/components/dish-carousel';
-import Circle2 from 'vue-loading-spinner/src/components/Circle2';
-import axios from 'axios';
 import images from '../mixins/images';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
-  components: { BackButton, EditButton, DishCarousel, Circle2 },
+  components: { BackButton, EditButton, DishCarousel },
   mixins: [images],
-  data() {
-    return {
-      dishes: [],
-      cook: [],
-      isLoading: true
-    };
+  computed: {
+    ...mapGetters([
+      'isSelectedCookLoading',
+      'selectedCookDetails',
+      'selectedCookDishes'
+    ])
   },
-  // this is not done yet, i'm waiting on feedback on the previous components before going further.
   async created() {
-    try {
-      let response = await axios.get(
-        `https://homefood-app.herokuapp.com/getDishesForCook?id=${this.$route.params.id}`
-      );
-      let i = 0;
-      let arrayLengthMinusOne = response.data.length - 1;
-      while (i < arrayLengthMinusOne) {
-        this.dishes.push(response.data[i]);
-        i++;
-      }
-      this.cook = response.data[arrayLengthMinusOne];
-      this.isLoading = false;
-    } catch (e) {
-      console.log(e);
-    }
+    await this.getCookDetails({ cookId: this.$route.params.id });
+  },
+  methods: {
+    ...mapActions(['getCookDetails'])
   }
 };
 </script>
