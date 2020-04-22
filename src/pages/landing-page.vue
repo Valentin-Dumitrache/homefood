@@ -16,7 +16,7 @@
               See dishes
             </v-btn>
           </router-link>
-          <router-link :to="{ name: 'signUp' }">
+          <router-link>
             <v-btn color="primary" small rounded class="mx-auto d-block">
               Become a cook
             </v-btn>

@@ -5,18 +5,18 @@
     </router-link>
     <v-spacer />
     <div v-if="isHomePath">
-      <router-link v-if="loggedIn" :to="{ name: 'addDish' }" tag="div">
+      <router-link v-if="loggedIn" tag="div">
         <v-btn color="primary" small outlined class="mr-7">
           Add dish
         </v-btn>
       </router-link>
-      <router-link v-else :to="{ name: 'signUp' }" tag="div">
+      <router-link v-else tag="div">
         <v-btn color="primary" small outlined class="mr-7">
           Become a cook
         </v-btn>
       </router-link>
     </div>
-    <router-link v-if="loggedIn" :to="{ name: 'profile' }" tag="div">
+    <router-link v-if="loggedIn" tag="div">
       <v-icon x-large>mdi-account-circle</v-icon>
     </router-link>
     <router-link
@@ -30,17 +30,11 @@
   </v-app-bar>
 </template>
 <script>
-import { mapState, mapMutations } from 'vuex';
-
 export default {
   computed: {
-    ...mapState(['loggedIn']),
     isHomePath() {
       return this.$route.name !== 'home';
     }
-  },
-  methods: {
-    ...mapMutations(['logIn'])
   }
 };
 </script>
