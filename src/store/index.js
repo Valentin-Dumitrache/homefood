@@ -9,16 +9,16 @@ const hostPath = 'https://homefood-app.herokuapp.com/';
 export default new Vuex.Store({
   state: {
     dishes: {
-      loading: false,
+      loading: true,
       data: []
     },
     selectedCook: {
-      loading: false,
+      loading: true,
       details: null,
       dishes: []
     },
     selectedDish: {
-      loading: false,
+      loading: true,
       cook: null,
       details: null,
       pictures: [],
@@ -38,14 +38,14 @@ export default new Vuex.Store({
     selectedCookDishes: state => state.selectedCook.dishes
   },
   mutations: {
-    beforeSetDishes(state) {
+    beforeGetDishes(state) {
       state.dishes.loading = true;
     },
-    setDishesSuccess(state, dishes) {
+    getDishesSuccess(state, dishes) {
       state.dishes.data = dishes;
       state.dishes.loading = false;
     },
-    setDishesFail(state) {
+    getDishesFail(state) {
       state.dishes.loading = false;
     },
     beforeGetDishDetails(state) {
@@ -75,16 +75,16 @@ export default new Vuex.Store({
   },
   actions: {
     async getDishes({ commit }) {
-      commit('beforeGetDishDetails');
+      commit('beforeGetDishes');
       try {
         const { data } = await axios.get(`${hostPath}getdishes`);
-        commit('setDishesSuccess', data);
+        commit('getDishesSuccess', data);
       } catch (err) {
-        commit('setDishesFail');
+        commit('getDishesFail');
       }
     },
     async getDishDetails({ commit }, { cookId, dishId }) {
-      commit('beforeSetDishes');
+      commit('beforeGetDishDetails');
       try {
         const params = { cookid: cookId, dishid: dishId };
         const { data } = await axios.get(`${hostPath}getdishdetails`, {

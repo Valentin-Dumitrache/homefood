@@ -62,7 +62,7 @@ export default {
       'selectedCookDishes'
     ])
   },
-  async created() {
+  async mounted() {
     await this.getCookDetails({ cookId: this.$route.params.id });
   },
   methods: {

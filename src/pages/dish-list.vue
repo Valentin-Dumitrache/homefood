@@ -39,7 +39,7 @@ export default {
   computed: {
     ...mapGetters(['isDishesLoading', 'dishes'])
   },
-  async created() {
+  async mounted() {
     await this.getDishes();
   },
   methods: {

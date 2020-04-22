@@ -107,7 +107,7 @@ export default {
     ])
   },
   mixins: [icons, images],
-  async created() {
+  async mounted() {
     await this.getDishDetails({ cookId: '1a', dishId: '1a' });
   },
   methods: {
