@@ -109,7 +109,8 @@ export default {
   },
   mixins: [icons, images],
   async mounted() {
-    await this.getDishDetails({ dishId: this.$route.params.id });
+    // await this.getDishDetails({ dishId: this.$route.params.id });
+    console.log(this.$route.params.id);
   },
   methods: {
     ...mapActions(['getDishDetails'])
