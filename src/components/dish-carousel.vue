@@ -43,6 +43,6 @@ export default {
 
 <style lang="scss" scoped>
 .dish-card {
-  max-width: 250px;
+  width: 250px;
 }
 </style>

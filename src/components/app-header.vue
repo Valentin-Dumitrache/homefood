@@ -5,28 +5,17 @@
     </router-link>
     <v-spacer />
     <div v-if="isHomePath">
-      <router-link v-if="loggedIn" tag="div">
-        <v-btn color="primary" small outlined class="mr-7">
-          Add dish
-        </v-btn>
-      </router-link>
-      <router-link v-else tag="div">
-        <v-btn color="primary" small outlined class="mr-7">
-          Become a cook
-        </v-btn>
-      </router-link>
+      <v-btn v-if="false" color="primary" small outlined class="mr-7">
+        Add dish
+      </v-btn>
+      <v-btn v-else color="primary" small outlined class="mr-7">
+        Become a cook
+      </v-btn>
     </div>
-    <router-link v-if="loggedIn" tag="div">
-      <v-icon x-large>mdi-account-circle</v-icon>
-    </router-link>
-    <router-link
-      v-else
-      class="subtitle-1 secondary--text font-weight-regular"
-      tag="div"
-      :to="{ name: 'login' }"
-    >
+    <v-icon x-large v-if="false">mdi-account-circle</v-icon>
+    <div v-else class="subtitle-1 secondary--text font-weight-regular">
       Log in
-    </router-link>
+    </div>
   </v-app-bar>
 </template>
 <script>

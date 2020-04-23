@@ -16,11 +16,9 @@
               See dishes
             </v-btn>
           </router-link>
-          <router-link>
-            <v-btn color="primary" small rounded class="mx-auto d-block">
-              Become a cook
-            </v-btn>
-          </router-link>
+          <v-btn color="primary" small rounded class="mx-auto d-block">
+            Become a cook
+          </v-btn>
         </v-col>
       </v-row>
     </v-container>
