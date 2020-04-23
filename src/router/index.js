@@ -14,7 +14,7 @@ const routes = [
     component: LandingPage
   },
   {
-    path: '/dishList',
+    path: '/dishlist',
     name: 'dishList',
     component: DishList
   },

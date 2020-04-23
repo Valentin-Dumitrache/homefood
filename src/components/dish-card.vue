@@ -3,7 +3,7 @@
     <v-carousel v-if="isDishRoute" cycle :show-arrows="false" height="300px">
       <v-carousel-item
         v-for="picture in pictures"
-        :src="picture"
+        :src="getPicture(picture)"
         :key="picture"
       ></v-carousel-item>
     </v-carousel>

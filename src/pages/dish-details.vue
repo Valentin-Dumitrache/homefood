@@ -11,7 +11,7 @@
   <v-content v-else>
     <back-button @click="$router.go(-1)" />
     <dish-card
-      :pictures="selectedDishPictures"
+      :pictures="getPicture(selectedDishPictures)"
       :name="selectedDishDetails.name"
       :price="selectedDishDetails.price"
     >
@@ -99,6 +99,7 @@ export default {
   components: { BackButton, DishCard },
   computed: {
     ...mapGetters([
+      'dishes',
       'selectedDishPictures',
       'isSelectedDishesLoading',
       'selectedDishDetails',
@@ -108,7 +109,7 @@ export default {
   },
   mixins: [icons, images],
   async mounted() {
-    await this.getDishDetails({ cookId: '1a', dishId: '1a' });
+    await this.getDishDetails({ dishId: this.$route.params.id });
   },
   methods: {
     ...mapActions(['getDishDetails'])
