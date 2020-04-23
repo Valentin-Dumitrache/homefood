@@ -1,6 +1,6 @@
 <template>
   <v-content>
-    <v-toolbar>
+    <v-toolbar v-if="false">
       <v-input color="secondary">
         <v-text-field
           class="mt-12 pe-5"
@@ -8,14 +8,14 @@
           dense
           outlined
           rounded
-          placeholder="Search..."
+          placeholder="Cauta..."
           prepend-inner-icon="mdi-magnify"
           color="secondary"
         >
         </v-text-field>
       </v-input>
       <v-btn small>
-        Filter
+        Filtre
       </v-btn>
     </v-toolbar>
     <v-container class="pa-0">
@@ -26,7 +26,12 @@
         :size="50"
         color="primary"
       />
-      <dish-carousel v-else :dishes="dishes" />
+      <v-container v-else>
+        <p class="mx-auto mt-5 mb-6 d-table title">Cele mai populare</p>
+        <dish-carousel :dishes="popularDishes" />
+        <p class="mx-auto mt-5 mb-6 d-table title">Toate mancarurile</p>
+        <dish-carousel :dishes="restOfDishes" />
+      </v-container>
     </v-container>
   </v-content>
 </template>
@@ -37,7 +42,13 @@ import { mapActions, mapGetters } from 'vuex';
 export default {
   components: { DishCarousel },
   computed: {
-    ...mapGetters(['isDishesLoading', 'dishes'])
+    ...mapGetters(['isDishesLoading', 'dishes']),
+    popularDishes() {
+      return this.dishes.filter(({ section }) => section === 'popular');
+    },
+    restOfDishes() {
+      return this.dishes.filter(({ section }) => section !== 'popular');
+    }
   },
   async mounted() {
     await this.getDishes();

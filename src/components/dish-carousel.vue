@@ -1,5 +1,5 @@
 <template>
-  <v-slide-group class="mt-12" center-active>
+  <v-slide-group center-active>
     <v-slide-item
       v-for="dish in dishList"
       :key="dish.id"

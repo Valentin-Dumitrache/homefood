@@ -12,8 +12,7 @@
         Become a cook
       </v-btn>
     </div>
-    <v-icon x-large v-if="false">mdi-account-circle</v-icon>
-    <div v-else class="subtitle-1 secondary--text font-weight-regular">
+    <div v-if="false" class="subtitle-1 secondary--text font-weight-regular">
       Log in
     </div>
   </v-app-bar>
@@ -22,7 +21,8 @@
 export default {
   computed: {
     isHomePath() {
-      return this.$route.name !== 'home';
+      // return this.$route.name !== 'home';
+      return false;
     }
   }
 };

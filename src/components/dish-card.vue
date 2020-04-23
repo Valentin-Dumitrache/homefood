@@ -27,10 +27,10 @@
         {{ price | formatPrice }}
       </v-toolbar-title>
       <v-spacer />
-      <v-btn icon v-if="canEdit">
+      <v-btn icon v-if="false">
         <v-icon color="secondary">mdi-pencil</v-icon>
       </v-btn>
-      <v-btn icon v-else>
+      <v-btn icon v-if="false">
         <v-icon color="secondary">mdi-heart</v-icon>
       </v-btn>
     </v-toolbar>
@@ -50,10 +50,6 @@ export default {
     price: {
       type: Number,
       required: true
-    },
-    canEdit: {
-      type: Boolean,
-      default: false
     },
     pictures: Array
   },
