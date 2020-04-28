@@ -2,7 +2,7 @@
 
 Homefood is a platform for selling and buying home-made food.
 
-See the webpage [page](https://Alina-Dumitrache.github.io/homefood-frontend) related to this project.
+See the webpage [page](https://homefood-d7010.web.app/) related to this project.
 
 ## Contributing
 
