@@ -9,18 +9,22 @@
             text-color="secondary"
             color="rgb(0, 0, 0, 0.6)"
           >
-            Here you can find the best food
+            Nicaieri nu gasesti mancare mai buna
           </v-chip>
           <router-link :to="{ name: 'dishList' }">
             <v-btn color="primary" small rounded class="mx-auto d-block mb-9">
-              See dishes
+              Vezi mancare
             </v-btn>
           </router-link>
-          <router-link :to="{ name: 'signUp' }">
-            <v-btn color="primary" small rounded class="mx-auto d-block">
-              Become a cook
-            </v-btn>
-          </router-link>
+          <v-btn
+            color="primary"
+            small
+            rounded
+            class="mx-auto d-block"
+            v-if="false"
+          >
+            Devino un bucatar
+          </v-btn>
         </v-col>
       </v-row>
     </v-container>

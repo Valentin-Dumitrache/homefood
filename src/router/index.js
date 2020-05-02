@@ -14,12 +14,7 @@ const routes = [
     component: LandingPage
   },
   {
-    path: '/login',
-    name: 'login',
-    component: null
-  },
-  {
-    path: '/dishList',
+    path: '/dishlist',
     name: 'dishList',
     component: DishList
   },

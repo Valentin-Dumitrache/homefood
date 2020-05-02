@@ -25,5 +25,6 @@ export default {
   .v-chip:before {
     background-color: initial;
   }
+  user-select: none;
 }
 </style>

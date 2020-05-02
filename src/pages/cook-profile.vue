@@ -10,7 +10,7 @@
   </v-content>
   <v-content v-else>
     <back-button @click="$router.go(-1)" />
-    <edit-button />
+    <edit-button v-if="false" />
     <div>
       <v-img
         :src="getPicture(selectedCookDetails.coverPicture)"
@@ -37,7 +37,7 @@
       <p class="mx-auto subtitle-1 d-table" color="secondary">
         {{ selectedCookDetails.delivery | formatDelivery }}
       </p>
-      <p class="subtitle-2" color="secondary">
+      <p class="subtitle-2 mx-2" color="secondary">
         {{ selectedCookDetails.description }}
       </p>
     </v-container>
@@ -62,7 +62,7 @@ export default {
       'selectedCookDishes'
     ])
   },
-  async created() {
+  async mounted() {
     await this.getCookDetails({ cookId: this.$route.params.id });
   },
   methods: {

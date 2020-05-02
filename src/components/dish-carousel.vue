@@ -1,5 +1,5 @@
 <template>
-  <v-slide-group class="mt-12" center-active>
+  <v-slide-group center-active>
     <v-slide-item
       v-for="dish in dishList"
       :key="dish.id"
@@ -43,6 +43,6 @@ export default {
 
 <style lang="scss" scoped>
 .dish-card {
-  max-width: 250px;
+  width: 250px;
 }
 </style>
